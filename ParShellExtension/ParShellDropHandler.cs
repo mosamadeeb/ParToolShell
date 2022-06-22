@@ -11,7 +11,7 @@ using static ParShellExtension.ParShellCommon;
 namespace ParShellExtension
 {
     [ComVisible(true)]
-    [COMServerAssociation(AssociationType.ClassOfExtension, ".par")]
+    [COMServerAssociation(AssociationType.FileExtension, ".par", ".par_c", ".par_e", ".par_j", ".par_k", ".par_z")]
     public class ParShellDropHandler : SharpDropHandler
     {
         protected override void DragEnter(DragEventArgs dragEventArgs)
