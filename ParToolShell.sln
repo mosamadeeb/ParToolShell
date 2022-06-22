@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32413.511
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParToolContextMenu", "ParShellExt\ParToolContextMenu.csproj", "{2F5F0E3D-B586-4D1D-8CC8-7FF532B9AB9A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ParManager", "ParManager", "{8802393D-DA54-4EB5-8CBD-370120D2F327}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParTool", "ParManager\ParTool\ParTool.csproj", "{02196AD4-D00F-4989-AB9A-593B191F47EA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParLibrary", "ParManager\ParLibrary\ParLibrary.csproj", "{2AAA035A-5FEF-412B-9A5B-6F3B214BA63C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParShellExtension", "ParShellExtension\ParShellExtension.csproj", "{74E28F8E-C75F-4E26-9392-3E723D50136A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2F5F0E3D-B586-4D1D-8CC8-7FF532B9AB9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F5F0E3D-B586-4D1D-8CC8-7FF532B9AB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F5F0E3D-B586-4D1D-8CC8-7FF532B9AB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F5F0E3D-B586-4D1D-8CC8-7FF532B9AB9A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02196AD4-D00F-4989-AB9A-593B191F47EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{02196AD4-D00F-4989-AB9A-593B191F47EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02196AD4-D00F-4989-AB9A-593B191F47EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,6 +25,10 @@ Global
 		{2AAA035A-5FEF-412B-9A5B-6F3B214BA63C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AAA035A-5FEF-412B-9A5B-6F3B214BA63C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AAA035A-5FEF-412B-9A5B-6F3B214BA63C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74E28F8E-C75F-4E26-9392-3E723D50136A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74E28F8E-C75F-4E26-9392-3E723D50136A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74E28F8E-C75F-4E26-9392-3E723D50136A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74E28F8E-C75F-4E26-9392-3E723D50136A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
