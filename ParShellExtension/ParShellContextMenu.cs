@@ -62,9 +62,9 @@ namespace ParShellExtension
                 repackItem.Click += (sender, args) => Task.Run(() => ParRepack(selected[0], parRepackPath, false));
                 parToolItem.DropDownItems.Add(repackItem);
 
-                ToolStripMenuItem repackItemCompression = new ToolStripMenuItem(repackText + " with compression");
-                repackItemCompression.Click += (sender, args) => Task.Run(() => ParRepack(selected[0], parRepackPath, true));
-                parToolItem.DropDownItems.Add(repackItemCompression);
+                // ToolStripMenuItem repackItemCompression = new ToolStripMenuItem(repackText + " with compression");
+                // repackItemCompression.Click += (sender, args) => Task.Run(() => ParRepack(selected[0], parRepackPath, true));
+                // parToolItem.DropDownItems.Add(repackItemCompression);
             }
 
             // We know that we have at least 1 item selected
@@ -90,21 +90,21 @@ namespace ParShellExtension
             }
 
             ToolStripMenuItem addItem = new ToolStripMenuItem(addText);
-            ToolStripMenuItem addItemCompression = new ToolStripMenuItem(addText + " with compression");
+            // ToolStripMenuItem addItemCompression = new ToolStripMenuItem(addText + " with compression");
 
             if (parExists)
             {
                 addItem.Click += (sender, args) => Task.Run(() => ParAdd(folderPath, selected, parPath, false));
-                addItemCompression.Click += (sender, args) => Task.Run(() => ParAdd(folderPath, selected, parPath, true));
+                // addItemCompression.Click += (sender, args) => Task.Run(() => ParAdd(folderPath, selected, parPath, true));
             }
             else
             {
                 addItem.Click += (sender, args) => Task.Run(() => ParCreate(folderPath, selected, parPath, false));
-                addItemCompression.Click += (sender, args) => Task.Run(() => ParCreate(folderPath, selected, parPath, true));
+                // addItemCompression.Click += (sender, args) => Task.Run(() => ParCreate(folderPath, selected, parPath, true));
             }
 
             parToolItem.DropDownItems.Add(addItem);
-            parToolItem.DropDownItems.Add(addItemCompression);
+            // parToolItem.DropDownItems.Add(addItemCompression);
 
             menu.Items.Add(parToolItem);
             return menu;

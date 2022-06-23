@@ -41,11 +41,6 @@ namespace ParShellExtension
                 AlternativeMode = false,
             };
 
-            if (compress)
-            {
-
-            }
-
             try
             {
                 ParTool.Create(opt);
