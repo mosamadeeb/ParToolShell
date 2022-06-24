@@ -106,6 +106,15 @@ namespace ParShellExtension
             parToolItem.DropDownItems.Add(addItem);
             // parToolItem.DropDownItems.Add(addItemCompression);
 
+            ToolStripSeparator separator = new ToolStripSeparator();
+            parToolItem.DropDownItems.Add(separator);
+
+            ToolStripMenuItem showConsoleItem = new ToolStripMenuItem("Show ParTool Console");
+            showConsoleItem.Checked = ShowConsole;
+            showConsoleItem.Click += (sender, args) => ShowConsole = !ShowConsole;
+
+            parToolItem.DropDownItems.Add(showConsoleItem);
+
             menu.Items.Add(parToolItem);
             return menu;
         }

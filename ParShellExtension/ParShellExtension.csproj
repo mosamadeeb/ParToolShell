@@ -12,10 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="5.7.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="ServerRegistrationManager" Version="2.7.2" />
     <PackageReference Include="SharpShell" Version="2.7.2" />
   </ItemGroup>
 
