@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,14 +21,7 @@ namespace ParShellExtension
                 Recursive = recursive,
             };
 
-            try
-            {
-                ParTool.Extract(opt);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            RunParTool(() => ParTool.Extract(opt));
         }
 
         public static async Task ParRepack(string inPath, string parPath, bool compress)
@@ -41,14 +34,7 @@ namespace ParShellExtension
                 AlternativeMode = false,
             };
 
-            try
-            {
-                ParTool.Create(opt);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            RunParTool(() => ParTool.Create(opt));
         }
 
         public static async Task ParAdd(string inPath, List<string> selected, string parPath, bool compress)
@@ -61,14 +47,7 @@ namespace ParShellExtension
                 Compression = compress ? 1 : 0,
             };
 
-            try
-            {
-                ParTool.Add(opt, selected.Where(f => File.Exists(f)).ToList(), selected.Where(f => Directory.Exists(f)).ToList());
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            RunParTool(() => ParTool.Add(opt, selected.Where(f => File.Exists(f)).ToList(), selected.Where(f => Directory.Exists(f)).ToList()));
         }
 
         public static async Task ParCreate(string inPath, List<string> selected, string parPath, bool compress)
@@ -81,9 +60,14 @@ namespace ParShellExtension
                 AlternativeMode = false,
             };
 
+            RunParTool(() => ParTool.Create(opt, selected.Where(f => File.Exists(f)).ToList(), selected.Where(f => Directory.Exists(f)).ToList()));
+        }
+
+        private static void RunParTool(Action parToolFunc)
+        {
             try
             {
-                ParTool.Create(opt, selected.Where(f => File.Exists(f)).ToList(), selected.Where(f => Directory.Exists(f)).ToList());
+                parToolFunc();
             }
             catch (Exception e)
             {
