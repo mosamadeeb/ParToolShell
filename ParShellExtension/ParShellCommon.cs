@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -73,6 +73,9 @@ namespace ParShellExtension
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }
