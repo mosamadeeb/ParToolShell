@@ -17,6 +17,8 @@ namespace ParShellExtension
 
         public static bool ShowConsole = false;
 
+        public static bool AlternativeMode = false;
+
         public static async Task ParExtract(string parPath, string outPath, bool recursive)
         {
             string args = $"extract \"{Path.GetFullPath(parPath)}\" \"{Path.GetFullPath(outPath)}\"";
@@ -39,6 +41,11 @@ namespace ParShellExtension
                 args += " -c 0";
             }
 
+            if (AlternativeMode)
+            {
+                args += " --alternative-mode";
+            }
+
             RunParTool(args);
         }
 
@@ -55,6 +62,11 @@ namespace ParShellExtension
                 args += " -c 0";
             }
 
+            if (AlternativeMode)
+            {
+                args += " --alternative-mode";
+            }
+
             RunParTool(args);
         }
 
@@ -69,6 +81,11 @@ namespace ParShellExtension
             if (!compress)
             {
                 args += " -c 0";
+            }
+
+            if (AlternativeMode)
+            {
+                args += " --alternative-mode";
             }
 
             RunParTool(args);
