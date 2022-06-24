@@ -76,51 +76,67 @@ namespace ParShellExtension
 
         private static async Task RunParTool(string args)
         {
-            Task task = Task.Run(() => RunParToolProcess(args));
-            if (!ShowConsole && !task.Wait(2500))
-            {
-                string caption = "ParTool Shell";
-                Task.Run(() => MessageBox.Show("ParTool is running...", caption, MessageBoxButtons.OK, MessageBoxIcon.Information));
-
-                await task.ConfigureAwait(false);
-                CloseMessageBox(caption);
-
-                MessageBox.Show("Finished!", caption + " Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private static async Task RunParToolProcess(string args)
-        {
-            Process process = new Process();
-
             try
             {
-                if (!ShowConsole)
+                using Process process = new Process();
+
+                Task parToolTask = Task.Run(() => RunParToolProcess(process, args));
+
+                if (!ShowConsole && !parToolTask.Wait(2000))
                 {
-                    // Stop the process from opening a new window
-                    process.StartInfo.CreateNoWindow = true;
-                    process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    string caption = "ParTool Shell Running";
+
+                    Task<DialogResult> abortMessageTask = Task.Run(() => ShowMessageBox("ParTool is running...", caption, MessageBoxButtons.OK, MessageBoxIcon.Information, "Abort"));
+
+                    int index = Task.WaitAny(abortMessageTask, parToolTask);
+
+                    if (index == 0 && abortMessageTask.Result == DialogResult.OK)
+                    {
+                        process.Kill();
+                        MessageBox.Show("Process aborted.", "ParTool Shell", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        await parToolTask.ConfigureAwait(false);
+
+                        if (!abortMessageTask.IsCompleted)
+                        {
+                            CloseMessageBox(caption);
+                        }
+
+                        MessageBox.Show("Finished!", "ParTool Shell", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
-
-                process.StartInfo.UseShellExecute = true;
-
-                // Setup executable and parameters
-                process.StartInfo.WorkingDirectory = parToolPath;
-                process.StartInfo.FileName = "ParTool.exe";
-                process.StartInfo.Arguments = args;
-
-                // Go
-                process.Start();
-                process.WaitForExit();
+                else
+                {
+                    await parToolTask.ConfigureAwait(false);
+                }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "ParTool Shell Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally
+        }
+
+        private static async Task RunParToolProcess(Process process, string args)
+        {
+            if (!ShowConsole)
             {
-                process.Dispose();
+                // Stop the process from opening a new window
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             }
+
+            process.StartInfo.UseShellExecute = true;
+
+            // Setup executable and parameters
+            process.StartInfo.WorkingDirectory = parToolPath;
+            process.StartInfo.FileName = "ParTool.exe";
+            process.StartInfo.Arguments = args;
+
+            // Go
+            process.Start();
+            process.WaitForExit();
         }
 
         private static string GetItemsArg(IEnumerable<string> items, string arg, Func<string, bool> existsFunc)
@@ -133,6 +149,36 @@ namespace ParShellExtension
             }
 
             return (itemsArg.Length == 0) ? string.Empty : $" {arg} {itemsArg}";
+        }
+
+        /// <summary>
+        /// This method should be ran in a new thread as a Task.
+        /// </summary>
+        private static DialogResult ShowMessageBox(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, params string[] buttonsText)
+        {
+            DialogResult result = DialogResult.None;
+
+            try
+            {
+                switch (buttons)
+                {
+                    case MessageBoxButtons.OK:
+                        MessageBoxManager.OK = buttonsText[0];
+                        break;
+                    default:
+                        break;
+                }
+
+                MessageBoxManager.Register();
+                result = MessageBox.Show(text, caption, buttons, icon);
+                MessageBoxManager.Unregister();
+            }
+            catch
+            {
+
+            }
+
+            return result;
         }
 
         private static void CloseMessageBox(string caption)
