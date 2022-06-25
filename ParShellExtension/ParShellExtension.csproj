@@ -10,6 +10,9 @@
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>ParShellExtKey.snk</AssemblyOriginatorKeyFile>
     <Platforms>AnyCPU;x64</Platforms>
+    <Authors>SutandoTsukai181</Authors>
+    <Copyright>Copyright (c) 2022 SutandoTsukai181</Copyright>
+    <RepositoryUrl>https://github.com/SutandoTsukai181/ParToolShell/</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

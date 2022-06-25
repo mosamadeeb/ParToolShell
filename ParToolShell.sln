@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParLibrary", "ParManager\Pa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParShellExtension", "ParShellExtension\ParShellExtension.csproj", "{74E28F8E-C75F-4E26-9392-3E723D50136A}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ParShellSetup", "ParShellSetup\ParShellSetup.vdproj", "{FC3BFA8F-E7F7-4505-A9ED-7F3A9B431580}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{74E28F8E-C75F-4E26-9392-3E723D50136A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{74E28F8E-C75F-4E26-9392-3E723D50136A}.Release|x64.ActiveCfg = Release|x64
 		{74E28F8E-C75F-4E26-9392-3E723D50136A}.Release|x64.Build.0 = Release|x64
+		{FC3BFA8F-E7F7-4505-A9ED-7F3A9B431580}.Debug|Any CPU.ActiveCfg = Debug
+		{FC3BFA8F-E7F7-4505-A9ED-7F3A9B431580}.Debug|x64.ActiveCfg = Debug
+		{FC3BFA8F-E7F7-4505-A9ED-7F3A9B431580}.Release|Any CPU.ActiveCfg = Release
+		{FC3BFA8F-E7F7-4505-A9ED-7F3A9B431580}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
