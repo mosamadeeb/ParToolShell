@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -23,7 +23,7 @@ namespace ParShellExtension
         protected override ContextMenuStrip CreateMenu()
         {
             ContextMenuStrip menu = new ContextMenuStrip();
-            ToolStripMenuItem parToolItem = new ToolStripMenuItem("ParTool");
+            ToolStripMenuItem parToolItem = new ToolStripMenuItem("ParTool", MenuImage);
 
             List<string> selected = SelectedItemPaths.ToList();
 

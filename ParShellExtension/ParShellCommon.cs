@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace ParShellExtension
             @"HKEY_CURRENT_USER\Software\SutandoTsukai181\ParToolShell",
             "installPath",
             @"C:\Program Files (x86)\ParToolShell");
+
+        public static readonly Image MenuImage = Resources.rmm_icon_16;
 
         public static bool ShowConsole = false;
 
