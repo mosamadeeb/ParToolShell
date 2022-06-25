@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SharpShell.Diagnostics;
 
 namespace ParShellExtension
 {
@@ -49,7 +50,7 @@ namespace ParShellExtension
             RunParTool(args);
         }
 
-        public static async Task ParAdd(string inPath, List<string> selected, string parPath, bool compress)
+        public static async Task ParAdd(string inPath, IEnumerable<string> selected, string parPath, bool compress)
         {
             string args = $"add \"{Path.GetFullPath(parPath)}\" \"{Path.GetFullPath(inPath)}\" \"{Path.GetFullPath(parPath)}\"";
 
@@ -70,7 +71,7 @@ namespace ParShellExtension
             RunParTool(args);
         }
 
-        public static async Task ParCreate(string inPath, List<string> selected, string parPath, bool compress)
+        public static async Task ParCreate(string inPath, IEnumerable<string> selected, string parPath, bool compress)
         {
             string args = $"create \"{Path.GetFullPath(inPath)}\" \"{Path.GetFullPath(parPath)}\"";
 
@@ -93,6 +94,8 @@ namespace ParShellExtension
 
         private static async Task RunParTool(string args)
         {
+            Logging.Log($"Running ParTool with arguments: {args}");
+
             try
             {
                 using Process process = new Process();
@@ -165,7 +168,7 @@ namespace ParShellExtension
                 itemsArg += $" \"{Path.GetFileName(item)}\"";
             }
 
-            return (itemsArg.Length == 0) ? string.Empty : $" {arg} {itemsArg}";
+            return $" {arg}{(itemsArg.Length == 0 ? " \"\"" : itemsArg)}";
         }
 
         /// <summary>

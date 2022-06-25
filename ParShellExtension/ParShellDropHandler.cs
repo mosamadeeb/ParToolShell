@@ -21,7 +21,7 @@ namespace ParShellExtension
 
         protected override void Drop(DragEventArgs dragEventArgs)
         {
-            Task.Run(() => ParAdd(Path.GetDirectoryName(SelectedItemPath), DragItems.ToList(), SelectedItemPath, false));
+            Task.Run(() => ParAdd(Path.GetDirectoryName(SelectedItemPath), DragItems, SelectedItemPath, false));
         }
     }
 }
