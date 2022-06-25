@@ -1,11 +1,11 @@
-﻿using SharpShell.Attributes;
-using SharpShell.SharpContextMenu;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SharpShell.Attributes;
+using SharpShell.SharpContextMenu;
 
 using static ParShellExtension.ParShellCommon;
 
@@ -103,8 +103,16 @@ namespace ParShellExtension
                 addItemCompression.Click += (sender, args) => Task.Run(() => ParCreate(folderPath, selected, parPath, true));
             }
 
-            parToolItem.DropDownItems.Add(addItem);
-            parToolItem.DropDownItems.Add(addItemCompression);
+            if (selected.Contains(parPath))
+            {
+                // Prevent using ParTool Add with the output par being selected
+                parToolItem.DropDownItems.Add(string.Format("Cannot add to \"{0}\" with the selected files!", Path.GetFileName(parPath)));
+            }
+            else
+            {
+                parToolItem.DropDownItems.Add(addItem);
+                parToolItem.DropDownItems.Add(addItemCompression);
+            }
 
             ToolStripSeparator separator = new ToolStripSeparator();
             parToolItem.DropDownItems.Add(separator);
