@@ -10,6 +10,8 @@ Download the MSI setup file from the [latest release](https://github.com/Sutando
 
 # Usage
 
+Check the [Usage guide](https://github.com/SutandoTsukai181/ParToolShell/wiki/Usage) in the wiki.
+
 ***
 
 # Uninstalling
@@ -19,6 +21,12 @@ You can uninstall ParShellTool from the **Apps & features** section in Windows s
 However, if you see a prompt asking for Windows Explorer to be closed, make sure to select **"Do not close applications"**. After the uninstaller is done, reboot your PC.
 
 <img src="https://user-images.githubusercontent.com/52977072/175780203-293051a3-4ccf-46e3-aa3c-11410c7ea024.png" alt="image" width="350"/>
+
+***
+
+# Logging
+
+ParToolShell logs the arguments that are used to run ParTool, as well as stack traces whenever an exception occurs. To view the logs, you need to follow [this guide](https://github.com/dwmkerr/sharpshell/blob/master/docs/logging/logging.md).
 
 ***
 
