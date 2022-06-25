@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Win32;
 using SharpShell.Diagnostics;
 
 namespace ParShellExtension
 {
     public class ParShellCommon
     {
-        private static string parToolPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-            Assembly.GetExecutingAssembly().GetName().Name);
+        private static string parToolPath = (string)Registry.GetValue(
+            @"HKEY_CURRENT_USER\Software\SutandoTsukai181\ParToolShell",
+            "installPath",
+            @"C:\Program Files (x86)\ParToolShell");
 
         public static bool ShowConsole = false;
 
@@ -98,9 +99,17 @@ namespace ParShellExtension
 
             try
             {
+                if (parToolPath.Length == 0 || !File.Exists(Path.Combine(parToolPath, "ParTool.exe")))
+                {
+                    throw new FileNotFoundException("Could not find \"ParTool.exe\". Please reinstall ParToolShell.", "ParTool.exe");
+                }
+
                 using Process process = new Process();
 
-                Task parToolTask = Task.Run(() => RunParToolProcess(process, args));
+                string stderr = string.Empty;
+                bool processKilled = false;
+
+                Task<string> parToolTask = Task.Run(() => RunParToolProcess(process, args));
 
                 if (!ShowConsole && !parToolTask.Wait(2000))
                 {
@@ -112,51 +121,72 @@ namespace ParShellExtension
 
                     if (index == 0 && abortMessageTask.Result == DialogResult.OK)
                     {
+                        processKilled = true;
                         process.Kill();
                         MessageBox.Show("Process aborted.", "ParTool Shell", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     else
                     {
-                        await parToolTask.ConfigureAwait(false);
+                        stderr = await parToolTask.ConfigureAwait(false);
 
                         if (!abortMessageTask.IsCompleted)
                         {
                             CloseMessageBox(caption);
                         }
 
-                        MessageBox.Show("Finished!", "ParTool Shell", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (process.ExitCode == 0)
+                        {
+                            MessageBox.Show("Finished!", "ParTool Shell", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                 }
                 else
                 {
-                    await parToolTask.ConfigureAwait(false);
+                    stderr = await parToolTask.ConfigureAwait(false);
+                }
+
+                if (!ShowConsole && process.ExitCode != 0 && !processKilled)
+                {
+                    Logging.Log($"ParTool Stack Trace:\n{stderr}");
+                    MessageBox.Show($"ParTool exited with an error:\n{stderr}", "ParTool Shell Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception e)
             {
+                Logging.Log($"ParToolShell Stack Trace:\n{e.StackTrace}");
                 MessageBox.Show(e.Message, "ParTool Shell Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private static async Task RunParToolProcess(Process process, string args)
+        private static async Task<string> RunParToolProcess(Process process, string args)
         {
+            string stderr = string.Empty;
+
             if (!ShowConsole)
             {
                 // Stop the process from opening a new window
                 process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.RedirectStandardError = true;
             }
 
-            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.UseShellExecute = false;
 
             // Setup executable and parameters
             process.StartInfo.WorkingDirectory = parToolPath;
-            process.StartInfo.FileName = "ParTool.exe";
+            process.StartInfo.FileName = Path.Combine(parToolPath, "ParTool.exe");
             process.StartInfo.Arguments = args;
 
             // Go
             process.Start();
+
+            if (!ShowConsole)
+            {
+                stderr = process.StandardError.ReadToEnd();
+            }
+
             process.WaitForExit();
+
+            return stderr;
         }
 
         private static string GetItemsArg(IEnumerable<string> items, string arg, Func<string, bool> existsFunc)
